@@ -33,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
         // keep the player on the screen
         // float xValue = Mathf.clamp(value, min, max)
         // rb.position.x 
-        float yValue = Mathf.Clamp(rb.position.y, -6.0f, 6.0f);
-        float xValue = Mathf.Clamp(rb.position.x, -11.0f, 11.0f);
+        float yValue = Mathf.Clamp(rb.position.y, -4.3f, 4.3f);
+        float xValue = Mathf.Clamp(rb.position.x, -10.5f, 10.5f);
 
         rb.position = new Vector2(xValue, yValue);
     }
