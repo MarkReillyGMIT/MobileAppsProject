@@ -63,7 +63,8 @@ public class Enemy : MonoBehaviour
             PlaySound(crashSound);
             // destroy the player and the rectangle
             // give the player points/coins
-            Destroy(player.gameObject);
+            SceneController.health -= 1;
+            //Destroy(player.gameObject);
             Destroy(gameObject);
         }
 
