@@ -23,4 +23,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         rb.velocity = new Vector2(-1 * speed, 0);
     }
+
+    public void SetMoveSpeed(float enemySpeed)
+    {
+        this.speed = enemySpeed;
+    }
 }

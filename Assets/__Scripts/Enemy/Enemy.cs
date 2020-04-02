@@ -12,16 +12,29 @@ public class Enemy : MonoBehaviour
 
     // == public fields ==
     // used from GameController enemy.ScoreValue
-    public int ScoreValue { get { return scoreValue; } }
 
     // delegate type to use for event
     public delegate void EnemyKilled(Enemy enemy);
+
+    // used from GameController enemy.ScoreValue
+    public int ScoreValue
+    {
+        set { scoreValue = value; }
+        get { return scoreValue; }
+    }
+    // used in PLayerHealth
+    public int DamageValue
+    {
+        set { damageValue = value; }
+        get { return damageValue; }
+    }
 
     // create static method to be implemented in the listener
     public static EnemyKilled EnemyKilledEvent;
 
     // == private fields ==
     [SerializeField] private int scoreValue = 10;
+    [SerializeField] private int damageValue = 5;
     [SerializeField] private GameObject explosionFX;
     [SerializeField] private AudioClip crashSound;
     // sounds for getting hit by bullet, spawning
@@ -31,6 +44,8 @@ public class Enemy : MonoBehaviour
     private float explosionDuration = 1.0f;
 
     private SoundController sc;
+
+    private ScoreKeeper scoreKeeper;
 
     // == private methods ==
     private void Start()
