@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private Camera gameCamera;
-
+    
     [SerializeField] private float speed = 5.0f;
 
     // == private methods ==
@@ -28,13 +28,13 @@ public class PlayerMovement : MonoBehaviour
         float vMovement = Input.GetAxis("Vertical");
         float hMovement = Input.GetAxis("Horizontal");
         // apply a force, get the player moving.
-        rb.velocity = new Vector2(hMovement * speed,
+        rb.velocity = new Vector2(hMovement * speed, 
                                   vMovement * speed);
         // keep the player on the screen
         // float xValue = Mathf.clamp(value, min, max)
         // rb.position.x 
-        float yValue = Mathf.Clamp(rb.position.y, -4.3f, 4.3f);
-        float xValue = Mathf.Clamp(rb.position.x, -10.5f, 10.5f);
+        float yValue = Mathf.Clamp(rb.position.y, -4.36f, 4.08f);
+        float xValue = Mathf.Clamp(rb.position.x, -13.25f, 13.4f);
 
         rb.position = new Vector2(xValue, yValue);
     }

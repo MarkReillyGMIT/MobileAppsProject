@@ -29,7 +29,7 @@ public class PointSpawners : MonoBehaviour
     private void Start()
     {
         enemyParent = GameObject.Find("EnemyParent");
-        if (!enemyParent) { enemyParent = new GameObject("EnemyParent"); }
+        if(!enemyParent) { enemyParent = new GameObject("EnemyParent"); }
         spawnPoints = GetComponentsInChildren<SpawnPoint>();
         spawnStack = ListUtils.CreateShuffledStack(spawnPoints);
         //EnableSpawning();
@@ -38,7 +38,7 @@ public class PointSpawners : MonoBehaviour
     // stack version
     private void SpawnOneEnemy()
     {
-        if (spawnStack.Count == 0)
+        if(spawnStack.Count == 0)
         {
             spawnStack = ListUtils.CreateShuffledStack(spawnPoints);
         }

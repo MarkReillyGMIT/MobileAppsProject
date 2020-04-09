@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class ScrollingBackground : MonoBehaviour
 {
-    public float bgSpeed;
-    public Renderer bgRend;
-    // Start is called before the first frame update
+    // == private fields ==
+    [SerializeField] private float scrollSpeed = 1.5f;
+
+    private Material myMaterial;
+    private Vector2 offset;
+
     void Start()
     {
-        
+        myMaterial = GetComponent<Renderer>().material;
+        offset = new Vector2(scrollSpeed, 0f);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        bgRend.material.mainTextureOffset += new Vector2(bgSpeed * Time.deltaTime, 0f);
+        myMaterial.mainTextureOffset += offset * Time.deltaTime;
+        
     }
 }

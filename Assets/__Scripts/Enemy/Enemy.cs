@@ -12,22 +12,16 @@ public class Enemy : MonoBehaviour
 
     // == public fields ==
     // used from GameController enemy.ScoreValue
+    public int ScoreValue {
+        set { scoreValue = value; }
+        get { return scoreValue; } }
+    // used in PLayerHealth
+    public int DamageValue {
+        set { damageValue = value; }
+        get { return damageValue; } }
 
     // delegate type to use for event
     public delegate void EnemyKilled(Enemy enemy);
-
-    // used from GameController enemy.ScoreValue
-    public int ScoreValue
-    {
-        set { scoreValue = value; }
-        get { return scoreValue; }
-    }
-    // used in PLayerHealth
-    public int DamageValue
-    {
-        set { damageValue = value; }
-        get { return damageValue; }
-    }
 
     // create static method to be implemented in the listener
     public static EnemyKilled EnemyKilledEvent;
@@ -35,6 +29,7 @@ public class Enemy : MonoBehaviour
     // == private fields ==
     [SerializeField] private int scoreValue = 10;
     [SerializeField] private int damageValue = 5;
+
     [SerializeField] private GameObject explosionFX;
     [SerializeField] private AudioClip crashSound;
     // sounds for getting hit by bullet, spawning
@@ -44,8 +39,6 @@ public class Enemy : MonoBehaviour
     private float explosionDuration = 1.0f;
 
     private SoundController sc;
-
-    private ScoreKeeper scoreKeeper;
 
     // == private methods ==
     private void Start()
@@ -72,18 +65,18 @@ public class Enemy : MonoBehaviour
         var player = whatHitMe.GetComponent<PlayerMovement>();
         var bullet = whatHitMe.GetComponent<Bullet>();
 
-        if (player)  // if (player != null)
+        if(player)  // if (player != null)
         {
             // play crash sound here
             PlaySound(crashSound);
             // destroy the player and the rectangle
             // give the player points/coins
-            SceneController.health -= 1;
-            //Destroy(player.gameObject);
+            // Destroy(player.gameObject);
+            GameController.health -= 1;
             Destroy(gameObject);
         }
 
-        if (bullet)
+        if(bullet)
         {
             // play die sound
             PlaySound(dieSound);
@@ -104,7 +97,7 @@ public class Enemy : MonoBehaviour
     private void PublishEnemyKilledEvent()
     {
         // make sure somebody is listening
-        if (EnemyKilledEvent != null)
+        if(EnemyKilledEvent != null)   
         {
             EnemyKilledEvent(this);
         }

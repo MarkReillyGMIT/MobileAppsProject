@@ -15,7 +15,7 @@ public class MusicPlayer : MonoBehaviour
         // this method gets called on creation
         // check for any other objects of the same type
         // if there is one, then use that one.
-        if (FindObjectsOfType(GetType()).Length > 1)
+        if(FindObjectsOfType(GetType()).Length > 1)
         {
             Destroy(gameObject);    // destroy the current object
         }

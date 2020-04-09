@@ -18,14 +18,15 @@ public class EnemyBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         rb.velocity = new Vector2(-1 * speed, 0);
     }
 
+    // == public method ==
     public void SetMoveSpeed(float enemySpeed)
     {
         this.speed = enemySpeed;
     }
+
 }

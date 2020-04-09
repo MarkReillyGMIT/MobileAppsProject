@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3228555597032445943}
   - component: {fileID: 3228555597032445938}
   m_Layer: 0
-  m_Name: Quad
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,8 +88,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3228555597032445942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4c3e0c80f0239940830e07fcc960013, type: 3}
+  m_Script: {fileID: 11500000, guid: 38fc8881b3eb6164f97b7045e03d7db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgSpeed: 0.3
-  bgRend: {fileID: 3228555597032445943}
+  scrollSpeed: 1.5

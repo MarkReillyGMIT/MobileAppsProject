@@ -6,6 +6,6 @@ public class HeartScript : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D col)
     {
-        SceneController.health += 1;
+        GameController.health += 1;
     }
 }
