@@ -25,5 +25,6 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("MainMenu");
         AudioListener.pause = !AudioListener.pause;
+        Time.timeScale = 1;
     }
 }

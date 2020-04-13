@@ -18,5 +18,11 @@ public class BoundaryCollider : MonoBehaviour
         {
             Destroy(bullet.gameObject);
         }
+
+        var heart = collision.GetComponent<ExtraHealth>();
+        if (heart)
+        {
+            Destroy(heart.gameObject);
+        }
     }
 }

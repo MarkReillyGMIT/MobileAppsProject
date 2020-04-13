@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5550386977444255814}
   - component: {fileID: 5550386977444255815}
-  - component: {fileID: 4462544049840232641}
+  - component: {fileID: 6265005147260006571}
+  - component: {fileID: 9189928686305354710}
+  - component: {fileID: -3415276577734848597}
+  - component: {fileID: 8626047833905455494}
   m_Layer: 0
   m_Name: Heart2
   m_TagString: Untagged
@@ -81,7 +84,80 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4462544049840232641
+--- !u!50 &6265005147260006571
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550386977444255864}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!60 &9189928686305354710
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550386977444255864}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.59, y: 1.94}
+    newSize: {x: 2.59, y: 1.94}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.835, y: 0.12}
+      - {x: 0.865, y: 0.24}
+      - {x: 0.865, y: 0.42999998}
+      - {x: 0.825, y: 0.59}
+      - {x: 0.635, y: 0.77}
+      - {x: 0.525, y: 0.79999995}
+      - {x: 0.315, y: 0.79999995}
+      - {x: 0.155, y: 0.74}
+      - {x: 0.114999995, y: 0.7}
+      - {x: 0.015, y: 0.58}
+      - {x: -0.055, y: 0.58}
+      - {x: -0.13499999, y: 0.69}
+      - {x: -0.315, y: 0.79999995}
+      - {x: -0.565, y: 0.79999995}
+      - {x: -0.745, y: 0.72999996}
+      - {x: -0.895, y: 0.53}
+      - {x: -0.905, y: 0.44}
+      - {x: -0.905, y: 0.19}
+      - {x: -0.835, y: 0.03}
+      - {x: -0.79499996, y: -0.03}
+      - {x: -0.585, y: -0.25}
+      - {x: -0.415, y: -0.39}
+      - {x: -0.035, y: -0.78999996}
+      - {x: 0.015, y: -0.78999996}
+      - {x: 0.265, y: -0.48999998}
+      - {x: 0.625, y: -0.17999999}
+      - {x: 0.775, y: 0}
+--- !u!114 &-3415276577734848597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,6 +166,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 5550386977444255864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36346972c451ecc4f8a9d797f639df30, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a76402b8932c754ea90012e723b4d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
+--- !u!114 &8626047833905455494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550386977444255864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23de3e7ed7a050748ba96b58a574c0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreValue: 10
+  explosionFX: {fileID: 0}
