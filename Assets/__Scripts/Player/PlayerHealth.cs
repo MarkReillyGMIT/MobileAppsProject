@@ -1,117 +1,88 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+//using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour
-{
-    // set up an initial health value,
-    // set an amount of damage per enemy - start with 5
-    [SerializeField] private GameObject explosionPrefab;
-    [SerializeField] private int playerStartHealth = 20;
-    private int playerCurrentHealth;
 
-    private GameController gc;
-    private Vector3 startPosition;
+//public class PlayerHealth : MonoBehaviour
+//{
+//    private Slider healthSlider;
+//    private static float health;
+//    public Color maxHealthColor = Color.green;
+//    public Color minHealthColor = Color.red;
+//    public Image fill;
+//    public GameObject hitParticleEmission;
+//    public float maxHealth = 100f;
 
-    private SpriteRenderer sr;
-    private PolygonCollider2D pc2d;
-    private WeaponsController wc;
-    private PlayerMovement pm;
-    private ParticleSystem ps;
 
-    private void Start()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        pc2d = GetComponent<PolygonCollider2D>();
-        wc = GetComponent<WeaponsController>();
-        pm = GetComponent<PlayerMovement>();
-        ps = GetComponentInChildren<ParticleSystem>();
+//    private void Start()
+//    {
+//        health = maxHealth;
 
-        playerCurrentHealth = playerStartHealth;
-        gc = FindObjectOfType<GameController>();
-        startPosition = new Vector3(transform.position.x,
-                                     transform.position.y,
-                                     transform.position.z);
-    }
+//        healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();
+//        healthSlider.wholeNumbers = true;
+//        healthSlider.maxValue = health;
+//        healthSlider.minValue = 0;
+//    }
 
-    // use the triggerEnter method to see if it gets hit by enemy
-    private void OnTriggerEnter2D(Collider2D whatHitMe)
-    {
-        var enemy = whatHitMe.GetComponent<Enemy>();
-        if(enemy)
-        {
-            playerCurrentHealth -= enemy.DamageValue;
-            Debug.Log($"Player Health: = {playerCurrentHealth}");
-        }
-        if(playerCurrentHealth <= 0)
-        {
-            // player should die
-            Die();
-        }
-    }
+//    void OnTriggerEnter2D(Collider2D collider)
+//    {
+//        Bullet missile = collider.gameObject.GetComponent<Bullet>();
+//        Enemy enemy = collider.gameObject.GetComponent<Enemy>();
 
-    private void Die()
-    {
-        // need to stop the player interacting - disable weapons
-        // make the ship disappear
-        // need to play an explosion
-        // hide the object, then make it reappear at the start
-        // going to take a little time
-        StartCoroutine(DieCoroutine());
-    }
+//        if (missile)
+//        {
+//            Hit(missile.GetDamage());
+//            missile.Hit();
+//            print("Damage Taken, Instance ID: " + GetInstanceID());
+//        }
 
-    private IEnumerator DieCoroutine()
-    {
-        // disable components - makes the player disappear
-        DisableComponents();
-        GameObject explosion = Instantiate(explosionPrefab);
-        explosion.transform.position = transform.position;
-        // tell the game controller lost one life
-        gc.LoseOneLife();
+//        if (enemy)
+//        {
+//            Hit(enemy.GetDamage());
+//            enemy.Hit();
 
-        yield return new WaitForSeconds(1.5f);
-        if(gc.RemainingLives > 0)
-        {
-            Respawn();
-        }
-    }
+//        }
+//    }
 
-    private void DisableComponents()
-    {
-        // SpriteREnderer, PolygonCollider2d, Weaspons, Movement
-        SetComponentsEnabled(false);
-    }
+//    void Hit(float damage)
+//    {
+//        health -= damage;
 
-    private void EnableComponents()
-    {
-        SetComponentsEnabled(true);
-    }
+//        DisplayHealth();
 
-    private void SetComponentsEnabled(bool status)
-    {
-        sr.enabled = status;
-        pc2d.enabled = status;
-        wc.enabled = status;
-        pm.enabled = status;
-        if(status == true)
-        {
-            ps.Play();
-        }
-        else
-        {
-            ps.Stop();
-        }
-        
-    }
+//        if (health <= 0)
+//        {
+//            Die();
+//        }
+//    }
 
-    private void Respawn()
-    {
-        // set the player back to the start position
-        // reset the player health
-        // re-enable all the components to make the player visible.
-        transform.position = startPosition;
-        playerCurrentHealth = playerStartHealth;
-        EnableComponents();
-    }
-}
+//    void Die()
+//    {
+//        Destroy(this.gameObject, 2f);
+//    }
+
+//    void DisplayHealth()
+//    {
+//        healthSlider.value = health;
+//        fill.color = Color.Lerp(minHealthColor, maxHealthColor, (float)healthSlider.value / maxHealth);
+
+//        if (hitParticleEmission)
+//        {
+//            GameObject hitParticleColor = Instantiate(hitParticleEmission) as GameObject;
+//            hitParticleColor.GetComponent<ParticleSystem>().startColor = fill.color;
+//        }
+//    }
+
+//    public void DisplayHealth(float healthPoints)
+//    {
+//        AddHealth(healthPoints);
+//        DisplayHealth();
+//    }
+
+//    public static void AddHealth(float healthPoints)
+//    {
+//        health += healthPoints;
+//    }
+//}

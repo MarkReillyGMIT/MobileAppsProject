@@ -5,78 +5,53 @@ using UnityEngine;
 
 using Utilities;
 
-//        InvokeRepeating(SPAWN_ENEMY_METHOD, spawnDelay, spawnInterval);
-
+//Reference - Damien Costello LearnOnline- https://learnonline.gmit.ie/mod/resource/view.php?id=94253
 public class PointSpawners : MonoBehaviour
 {
-    // == private fields ==
-    private WaveConfig waveConfig;
-
     [SerializeField] private Enemy enemyPrefab;
-    [SerializeField] private float spawnDelay = 0.25f;
-    //[SerializeField] private float spawnInterval = 0.35f;
+    //Spawn delay and interval time
+    [SerializeField] private float spawnDelay = 1.5f;
+    [SerializeField] private float spawnInterval = 1.5f;
 
     private const string SPAWN_ENEMY_METHOD = "SpawnOneEnemy";
-    private IList<SpawnPoint> spawnPoints;
-    private Stack<SpawnPoint> spawnStack;
-    private GameObject enemyParent;
 
-    // events for telling the system enemy spawned
-    public delegate void EnemySpawned();
-    public static event EnemySpawned EnemySpawnedEvent;
+    private IList<SpawnPoint> spawnPoints;
+
+    private Stack<SpawnPoint> spawnStack;
+
+    private GameObject enemyParent;
 
     // == private methods ==
     private void Start()
     {
         enemyParent = GameObject.Find("EnemyParent");
-        if(!enemyParent) { enemyParent = new GameObject("EnemyParent"); }
+        if (!enemyParent)
+        {
+            enemyParent = new GameObject("EnemyParent");
+        }
+
+        // Get the spawn points 
         spawnPoints = GetComponentsInChildren<SpawnPoint>();
-        spawnStack = ListUtils.CreateShuffledStack(spawnPoints);
-        //EnableSpawning();
+        SpawnEnemyWaves();
     }
 
-    // stack version
+    // Spawn enemies
+    private void SpawnEnemyWaves()
+    {
+        // Create the stack of points
+        spawnStack = ListUtils.CreateShuffledStack(spawnPoints);
+        InvokeRepeating(SPAWN_ENEMY_METHOD, spawnDelay, spawnInterval);
+    }
+
+    // Stack version
     private void SpawnOneEnemy()
     {
-        if(spawnStack.Count == 0)
+        if (spawnStack.Count == 0)
         {
             spawnStack = ListUtils.CreateShuffledStack(spawnPoints);
         }
         var enemy = Instantiate(enemyPrefab, enemyParent.transform);
         var sp = spawnStack.Pop();
         enemy.transform.position = sp.transform.position;
-        // set the enemy parameters.
-        enemy.GetComponent<EnemyBehaviour>().SetMoveSpeed(waveConfig.GetEnemySpeed());
-        enemy.GetComponent<Enemy>().ScoreValue = waveConfig.GetScoreValue();
-        enemy.GetComponent<Enemy>().DamageValue = waveConfig.GetDamageValue();
-        // use the new sprite
-        enemy.GetComponent<SpriteRenderer>().sprite = waveConfig.GetEnemySprite();
-        PublishOnEnemySpawnedEvent();   // tell the system
     }
-
-    // == public methods ==
-
-    // create my event to publish the fact that enemt spawned
-    public void PublishOnEnemySpawnedEvent()
-    {
-        EnemySpawnedEvent?.Invoke();
-    }
-
-    public void EnableSpawning()
-    {
-        //InvokeRepeating(SPAWN_ENEMY_METHOD, spawnDelay, spawnInterval);
-        InvokeRepeating(SPAWN_ENEMY_METHOD, spawnDelay,
-                        waveConfig.GetSpawnInterval());
-    }
-
-    public void DisableSpawning()
-    {
-        CancelInvoke(SPAWN_ENEMY_METHOD);
-    }
-
-    public void SetWaveConfig(WaveConfig waveConfig)
-    {
-        this.waveConfig = waveConfig;
-    }
-
 }

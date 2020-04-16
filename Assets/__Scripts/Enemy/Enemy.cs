@@ -28,17 +28,30 @@ public class Enemy : MonoBehaviour
 
     // == private fields ==
     [SerializeField] private int scoreValue = 10;
-    [SerializeField] private int damageValue = 5;
+    [SerializeField] private int damageValue = 15;
+    [SerializeField] float health = 15f;
+    [SerializeField] int scoreWeight = 150;
+
+
 
     [SerializeField] private GameObject explosionFX;
     [SerializeField] private AudioClip crashSound;
     // sounds for getting hit by bullet, spawning
     [SerializeField] private AudioClip dieSound;
     [SerializeField] private AudioClip spawnSound;
+    [SerializeField] public AudioClip shootSound;
+    [SerializeField] AudioClip destroySound;
+    [SerializeField] GameObject particleEmission;
+    [SerializeField] GameObject addScoreParticleEmitter;
 
-    private float explosionDuration = 1.0f;
 
+    private float sfxVolume;
+    private float damage = 10f;
     private SoundController sc;
+    private ScoreKeeper scoreKeeper;
+    private Vector3 sfxPosition;
+
+
 
     // == private methods ==
     private void Start()
@@ -46,6 +59,9 @@ public class Enemy : MonoBehaviour
         //sc = FindObjectOfType<SoundController>();
         sc = SoundController.FindSoundController();
         PlaySound(spawnSound);
+        sfxVolume = MusicPlayer.GetSFXVolume();
+        sfxPosition = new Vector3(this.transform.position.x, this.transform.position.y, -50); //for 3-D Sound
+        scoreKeeper = GameObject.Find("Score").GetComponent<ScoreKeeper>();
     }
 
     private void PlaySound(AudioClip clip)
@@ -56,7 +72,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D whatHitMe)
+    public float GetDamage()
+    {
+        return damage;
+    }
+
+    void Hit(float damage)
+    {
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+   private void OnTriggerEnter2D(Collider2D whatHitMe)
     {
         // parameter = what ran into me
         // if the player hit, then destroy the player
@@ -67,39 +97,39 @@ public class Enemy : MonoBehaviour
 
         if(player)  // if (player != null)
         {
-            // play crash sound here
-            PlaySound(crashSound);
-            // destroy the player and the rectangle
-            // give the player points/coins
-            // Destroy(player.gameObject);
-            GameController.health -= 1;
             Destroy(gameObject);
         }
 
         if(bullet)
         {
-            // play die sound
-            PlaySound(dieSound);
-            // destroy bullet
-            Destroy(bullet.gameObject);
-            // publish the event to the system to give the player points
-            PublishEnemyKilledEvent();
-            // show the explosion
-            GameObject explosion = Instantiate(explosionFX,
-                                               transform.position,
-                                               transform.rotation);
-            Destroy(explosion, explosionDuration);
-            // destroy this game object
-            Destroy(gameObject);
+            bullet.Hit();
+            Hit(bullet.GetDamage());
         }
     }
 
-    private void PublishEnemyKilledEvent()
+    public void Hit()
     {
-        // make sure somebody is listening
-        if(EnemyKilledEvent != null)   
+        Destroy(gameObject);
+    }
+
+    void Die()
+    {
+        GameObject particleColor = Instantiate(particleEmission, gameObject.transform.position, Quaternion.identity) as GameObject;
+        ParticleSystem ps = particleColor.GetComponent<ParticleSystem>();
+        ParticleSystem.MainModule psmain = ps.main;
+        psmain.startColor = gameObject.GetComponent<SpriteRenderer>().color;
+
+        if (destroySound)
         {
-            EnemyKilledEvent(this);
+            AudioSource.PlayClipAtPoint(destroySound, Camera.main.transform.position, Mathf.Clamp(sfxVolume + 0.45f, 0.0f, 1.0f));
         }
+
+        if (addScoreParticleEmitter)
+        {
+            Instantiate(addScoreParticleEmitter);
+        }
+
+        scoreKeeper.Score(scoreWeight);
+        Destroy(this.gameObject);
     }
 }

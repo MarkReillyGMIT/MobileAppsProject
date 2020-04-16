@@ -27,4 +27,19 @@ public class MenuManager : MonoBehaviour
         AudioListener.pause = !AudioListener.pause;
         Time.timeScale = 1;
     }
+
+    public void ToLevelTwo()
+    {
+        SceneManager.LoadSceneAsync("LevelTwo");
+    }
+
+    public void ToScores()
+    {
+        SceneManager.LoadSceneAsync("Scores");
+    }
+
+    public void ToTutorial()
+    {
+        SceneManager.LoadSceneAsync("Tutorial");
+    }
 }

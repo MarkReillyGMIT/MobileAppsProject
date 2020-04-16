@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// Public Variables
+	#region
+	public Color explosionColor;
+	public GameObject particleEmission;
+	#endregion
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private float damage = 10f;
+
+	public float GetDamage()
+	{
+		return damage;
+	}
+
+	public void Hit()
+	{
+		if (particleEmission)
+		{
+			GameObject particleColor = Instantiate(particleEmission, gameObject.transform.position, Quaternion.identity) as GameObject;
+			ParticleSystem ps = particleColor.GetComponent<ParticleSystem>();
+			ParticleSystem.MainModule psmain = ps.main;
+			psmain.startColor = gameObject.GetComponent<SpriteRenderer>().color;
+			particleColor.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<SpriteRenderer>().color;
+		}
+
+		Destroy(gameObject);
+	}
 }

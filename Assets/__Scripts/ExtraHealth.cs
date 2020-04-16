@@ -18,7 +18,7 @@ public class ExtraHealth : MonoBehaviour
 
 
     // == private fields ==
-   
+    private float addHealth = 10f;
 
     // == private methods ==
     private void OnTriggerEnter2D(Collider2D whatHitMe)
@@ -37,20 +37,14 @@ public class ExtraHealth : MonoBehaviour
             // play crash sound here
             // destroy the player and the rectangle
             // give the player points/coins
-            GameController.health += 1;
             Destroy(gameObject);
         }
     }
-
-    private void PublishEnemyKilledEvent()
+    public float GetAddHealth()
     {
-        // make sure somebody is listening
-        if (HealthGainedEvent != null)
-        {
-            HealthGainedEvent(this);
-        }
+        return addHealth;
     }
-
+    
 }
 
 
