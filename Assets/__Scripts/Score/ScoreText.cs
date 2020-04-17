@@ -32,6 +32,7 @@ public class ScoreText : MonoBehaviour
 		//Find scoreText
 		scoreText = GetComponent<Text>();
 		score = ScoreKeeper.score.ToString();
+		Debug.Log("Score "+score);
 		ScoreKeeper.ResetScore();
 		itemColor = scoreText.color;
 
