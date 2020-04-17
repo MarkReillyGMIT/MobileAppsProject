@@ -3,54 +3,76 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /*
- * Controls enemy 
+ * Controls EnemyAI 
+ * 
+ * Reference: https://www.youtube.com/watch?v=kOzhE3_P2Mk
  */
-public class Enemy : MonoBehaviour
+public class EnemyAI : MonoBehaviour
 {
     // == public fields ==
-    //Health of enemy
+    //Health of Enemy
     [SerializeField] float health = 15f;
-    //Amount of points for killing this enemy
-    [SerializeField] int scoreWeight = 150;
-    // sounds for getting hit by bullet, spawning, shooting
-    [SerializeField] private AudioClip spawnSound;
+    //Score Value of enemy
+    [SerializeField] int scoreWeight = 250;
+    //Shooting and destroyed sound of enemy
     [SerializeField] public AudioClip shootSound;
-    [SerializeField] public AudioClip destroySound;
-    //Particle Explosions for when the user gets points, and gameObject dies.
+    [SerializeField] AudioClip destroySound;
+    [SerializeField] AudioClip shootClip;
+    //Particle effects
     [SerializeField] GameObject particleEmission;
     [SerializeField] GameObject addScoreParticleEmitter;
+    //Bullet Gameobject
+    [SerializeField] GameObject projectile;
+    //Get player transform
+    [SerializeField] Transform player;
+    //Time between each shot
+    [SerializeField] float startTimeBtwShots;
 
     // == private fields ==
+    [SerializeField] [Range(0f, 1.0f)] private float shootVolume = 0.5f;
+    private AudioSource audioSource;
+    private float timeBtwShots;
     private float sfxVolume;
-    //Damage value of hitting enemy
+    //Damage of enemy if collided into.
     private float damage = 10f;
     private SoundController sc;
     private ScoreKeeper scoreKeeper;
-    private Vector3 sfxPosition;
 
     // == private methods ==
     private void Start()
     {
+        //Get soundcontroller
         sc = SoundController.FindSoundController();
-        PlaySound(spawnSound);
+        //Find the player gameobject
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        timeBtwShots = startTimeBtwShots;
         sfxVolume = MusicPlayer.GetSFXVolume();
-        sfxPosition = new Vector3(this.transform.position.x, this.transform.position.y, -50); //for 3-D Sound
+        audioSource = GetComponent<AudioSource>();
+        //Gets current score value
         scoreKeeper = GameObject.Find("Score").GetComponent<ScoreKeeper>();
     }
 
-    private void PlaySound(AudioClip clip)
+    private void Update()
     {
-        if (sc)
+        //Shoot at the player when condition is true,else wait
+        if (timeBtwShots <= 0)
         {
-            sc.PlayOneShot(clip);
+            Instantiate(projectile, transform.position, Quaternion.identity);
+            timeBtwShots = startTimeBtwShots;
+            audioSource.PlayOneShot(shootClip, shootVolume);
+        }
+        else
+        {
+            timeBtwShots -= Time.deltaTime;
         }
     }
-
+    //Get Damge value of gameObject
     public float GetDamage()
     {
         return damage;
     }
-
+    //Takes in damage value and subtracts it from the current health value
+    //Checks if health is greater than or equal to zero , if not call Die()
     void Hit(float damage)
     {
         health -= damage;
@@ -60,33 +82,31 @@ public class Enemy : MonoBehaviour
             Die();
         }
     }
-   private void OnTriggerEnter2D(Collider2D whatHitMe)
+    private void OnTriggerEnter2D(Collider2D whatHitMe)
     {
         // if the player hit, then update health bar and check should player be destroyed.
-        //if bullet then destroy gameObject enemy, give player points.
-
+        //if bullet then update health bar destroy gameObject enemy, give player points.
         var player = whatHitMe.GetComponent<Player>();
         var bullet = whatHitMe.GetComponent<Bullet>();
 
-        if(player)
+        if (player)  // if (player != null)
         {
             player.Hit();
             Destroy(gameObject);
         }
 
-        if(bullet)
+        if (bullet)
         {
             bullet.Hit();
             Hit(bullet.GetDamage());
         }
     }
-
+    //Method to destroy current gameObject
     public void Hit()
     {
         Destroy(gameObject);
     }
-
-    //Activates particle explosions, add score particle , destroysound 
+    //Activates particle explosions, add score particle , destroysound
     //Adds score to the players current score
     //Destroys gameobject 
     void Die()
@@ -110,3 +130,4 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
+

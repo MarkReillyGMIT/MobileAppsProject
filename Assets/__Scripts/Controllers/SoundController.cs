@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
+ * Controls sound effects for player and enemy.
+ */
 [RequireComponent(typeof(AudioSource))]
 public class SoundController : MonoBehaviour
 {
