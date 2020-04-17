@@ -120,9 +120,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   scoreWeight: 150
-  explosionFX: {fileID: 0}
-  crashSound: {fileID: 8300000, guid: adee52a205d3b4c41bbb523f0fe64860, type: 3}
-  dieSound: {fileID: 8300000, guid: 7934ae2919bbfb749b40cb1bdbd162ce, type: 3}
   spawnSound: {fileID: 8300000, guid: 812da5c27d5fe6245b4ae879d34692f0, type: 3}
   shootSound: {fileID: 8300000, guid: 7934ae2919bbfb749b40cb1bdbd162ce, type: 3}
   destroySound: {fileID: 8300000, guid: adee52a205d3b4c41bbb523f0fe64860, type: 3}
@@ -142,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b5b0dea1ba4c504d8366d617568e86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 6
 --- !u!114 &8382235405545346986
 MonoBehaviour:
   m_ObjectHideFlags: 0
